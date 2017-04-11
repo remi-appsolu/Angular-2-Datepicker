@@ -1,5 +1,8 @@
 **/*.ngFactory.*
-aot
+tsconfig-aot.json
+tsconfig.json
+travis.yml
+.npmignore
 demo
 index.html
 integration-test
