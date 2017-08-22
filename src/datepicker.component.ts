@@ -1,6 +1,6 @@
 import {
   Component, ElementRef, EventEmitter, Input, OnChanges,
-  OnInit, Output, Renderer, SimpleChange, 
+  OnInit, Output, Renderer, SimpleChange,
 } from '@angular/core';
 import { state, style, transition, trigger, keyframes, animate } from '@angular/animations';
 import { FormControl, Validators } from '@angular/forms';
@@ -207,6 +207,7 @@ interface ValidationResult {
     <div
       class="datepicker"
       [ngStyle]="{'font-family': fontFamily}"
+
     >
       <input
         [disabled]="disabled"
@@ -218,7 +219,10 @@ interface ValidationResult {
         (click)="onInputClick()"
         [(ngModel)]="inputText"
         readonly="true"
+        [hidden]="isHidden"
       >
+      <!--<button md-button *ngIf="isHidden" > -->
+      <md-icon (click)="onInputClick()" *ngIf="isHidden">date_range</md-icon>
       <div
         class="datepicker__calendar"
         *ngIf="showCalendar"
@@ -348,6 +352,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
   @Input() dayNames: Array<String> = ['S', 'M', 'T', 'W', 'T', 'F', 'S']; // Default order: firstDayOfTheWeek = 0
   @Input() hoveredDay: Date;
   @Input() months: Array<string>;
+  @Input() isHidden: boolean = false;
   dayNamesOrdered: Array<String>;
   calendar: Calendar;
   currentMonthNumber: number;
