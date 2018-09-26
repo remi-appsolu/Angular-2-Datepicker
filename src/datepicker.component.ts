@@ -221,8 +221,8 @@ interface ValidationResult {
         readonly="true"
         [hidden]="isHidden"
       >
-      <!--<button md-button *ngIf="isHidden" > -->
-      <md-icon (click)="onInputClick()" *ngIf="isHidden">date_range</md-icon>
+      <!--<button mat-button *ngIf="isHidden" > -->
+      <mat-icon (click)="onInputClick()" *ngIf="isHidden">date_range</mat-icon>
       <div
         class="datepicker__calendar"
         *ngIf="showCalendar"
