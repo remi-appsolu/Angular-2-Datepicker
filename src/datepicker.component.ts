@@ -199,7 +199,7 @@ interface ValidationResult {
         outline: none;
         border-radius: 0.1rem;
         padding: .2em .6em;
-        font-size: 14px;
+        font-family: roboto;
       }
     `
   ],
@@ -215,11 +215,13 @@ interface ValidationResult {
         [placeholder]="placeholder"
         [ngStyle]="{'color': altInputStyle ? colors['white'] : colors['black'],
                     'background-color': altInputStyle ? accentColor : colors['white'],
-                    'border': altInputStyle ? '' : '1px solid #dadada'}"
-        (click)="onInputClick()"
+                    'border': altInputStyle ? '' : borderStyle}"
+        (focus)="onInputFocus()"
+        (blur)="onInputBlur()"
         [(ngModel)]="inputText"
         readonly="true"
         [hidden]="isHidden"
+        [tabindex]="inputTabIndex"
       >
       <!--<button mat-button *ngIf="isHidden" > -->
       <mat-icon (click)="onInputClick()" *ngIf="isHidden">date_range</mat-icon>
@@ -333,6 +335,9 @@ export class DatepickerComponent implements OnInit, OnChanges {
   @Input() disabled: boolean;
   @Input() accentColor: string;
   @Input() altInputStyle: boolean;
+  @Input() borderStyle: string = '1px solid #dadada';
+  @Input() inputClass: string;
+  @Input() inputTabIndex: string;
   @Input() dateFormat: string | DateFormatFunction;
   @Input() fontFamily: string;
   @Input() rangeStart: Date;
@@ -564,7 +569,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
    */
   isDateValid(date: Date): boolean {
     return (!this.rangeStart || date.getTime() >= this.rangeStart.getTime()) &&
-           (!this.rangeEnd || date.getTime() <= this.rangeEnd.getTime());
+      (!this.rangeEnd || date.getTime() <= this.rangeEnd.getTime());
   }
 
   /**
@@ -575,7 +580,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
   filterInvalidDays(calendarDays: Array<number>): Array<number> {
     let newCalendarDays: any[] = [];
     calendarDays.forEach((day: number | Date) => {
-      if (day === 0 || !this.isDateValid(<Date> day)) {
+      if (day === 0 || !this.isDateValid(<Date>day)) {
         newCalendarDays.push(0)
       } else {
         newCalendarDays.push(day)
@@ -596,6 +601,17 @@ export class DatepickerComponent implements OnInit, OnChanges {
   */
   onInputClick(): void {
     this.showCalendar = !this.showCalendar;
+  }
+
+  /**
+   * Called when input is focused
+   */
+  onInputFocus(): void {
+    this.showCalendar = true;
+  }
+
+  onInputBlur(): void {
+    //this.showCalendar = false;
   }
 
   /**
